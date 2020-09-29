@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body><div style="display:block;font-size:10pt;font-family:Raleway;"><font color="red">Logged into buffalo with Andrew Cassidy as limited_staff_member </font><a href="https://server.thecoderschool.com/python/pygameintro.php?logout">logout</a></div>
+
+<link rel="shortcut icon" href="https://server.thecoderschool.com/favicon.ico" type="image/x-icon">
+<link rel="icon" href="https://server.thecoderschool.com/favicon.ico" type="image/x-icon">
+<meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+<meta name="title" content="theCoderSchool Internal Page">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./pygameintro.php_files/css">
+
+
+
+<style>
+body {
+    background-image: url("https://server.thecoderschool.com/bgcode.png");
+    background-color: #CCCCCC;
+}
+h1 {color:green;text-align:center;font-weight:bold; font-size:13pt}
+h2 {color:green;text-align:center;font-weight:bold; font-size:11pt}
+h3 {color:#333333;text-align:center;font-weight:bold; font-size:11pt}
+
+p.code {
+    font: 15px courier;
+    text-align:left;
+    padding-left:10px;
+    color:#007700;
+    background-color:#EEEEEE;
+}
+div.box {
+    background-color: lightgrey;
+    width: 600px;
+    padding: 25px;
+    border: 15px solid navy;
+    margin: 25px;
+}
+
+img,textarea,input {
+	max-width:95%;
+}
+
+#mainbigdiv{
+	border:solid black 1px;
+	margin:0px 15% 0px 15%;
+	padding:0px
+}
+
+#logoheaddiv{
+	background-color:#222222;
+	background:linear-gradient(to bottom,#000000,#444444);
+	text-align:center ;
+}
+
+/* LITTLE SCREENS*/ 
+@media screen and (max-width: 800px) {
+	#mainbigdiv{
+		margin:0;
+	}
+}
+
+/* Don't print this guy, if printing to printer */
+@media print
+{    
+    #logoheaddiv, #logoheaddiv *
+    {
+        display: none !important;
+    }
+}
+
+
+</style>
+
+<center>
+<!-- largest div, wraps all but footer -->
+<div id="mainbigdiv">
+
+<!-- header with logo -->
+<div id="logoheaddiv">
+<img src="./pygameintro.php_files/logohoriztag-white.png" style="width:300px;padding:20px">
+</div>
+
+
+<!-- Main white box holding content -->
+<div style="background-color:white;font-family:Raleway;font-size:11pt"><style>
+img,pre{max-width:95%}
+</style>
+
+<img src="./pygameintro.php_files/pygame.gif" height="100">
+<div style="padding:10px;text-align:left">
+
+
+<h1>Intro to Pygame</h1>
+Pygame is a popular graphics library which uses Python to create all kinds of dynamic, interactive graphics. We're going to use it to make video games we can control with the keyboard.
+
+<br><br>
+Check whether you have it on your computer. (It's installed by default on the Raspberry Pi.) Open "IDLE," Python's built-in editor:
+<br><br>
+<img src="./pygameintro.php_files/idle.png">
+<br><br>
+To check whether pygame is installed, type "import pygame" and press ENTER. If you don't get an error message, you have it installed.
+<br><br>
+<img src="./pygameintro.php_files/importpygame.png">
+<br><br>
+If you get an error message like this, you need to install pygame:
+<br><br>
+<img src="./pygameintro.php_files/nomodule.png">
+<br><br>
+<h2>Creating a Template Program</h2>
+We're going to create a lot of Pygame programs, so it'll be helpful to save a template with the essentials of a Pygame program so we won't have to go through it all again. Start a New File (by pressing Ctrl and N). Here's the simplest possible Pygame program. (Save this as <b> "pygame_template.py"</b> with no spaces in the file name.) You import pygame, you create a display screen, and you quit. Run it! What happens?
+
+
+<pre><code><p class="code">
+import pygame
+
+pygame.init() #start pygame
+
+#create a display screen: 400x400 pixels
+screen = pygame.display.set_mode((400,400))
+            
+pygame.quit()
+</p></code></pre>
+
+A black screen pops up and immediately disappears. To create graphics, you need to refresh this display screen constantly. That means adding a while loop. 
+
+<pre><code><p class="code">
+import pygame
+
+pygame.init() #start pygame
+
+#create a display screen: 400x400 pixels
+screen = pygame.display.set_mode((400,400))
+
+done = False #we're not done displaying
+
+while not done:
+    for event in pygame.event.get(): #check the events list
+        if event.type == pygame.QUIT: #if the user clicks the X
+            done = True #now we're done displaying
+            
+pygame.quit()
+</p></code></pre>
+
+If you run this version, you'll get the screen to stay up until you click the X in the corner to close it.
+<br><br>
+Pygame stores every "event" (keys pressed, mouse movements and mouse clicks) in a list. Using this while loop, Pygame keeps checking if one of the events is of the type "QUIT," meaning the user clicked the X to close the window. Then it breaks out of the while loop. 
+
+<h2>Adding Stuff</h2>
+Of course you want to add things to your template. After creating the screen, add the line
+
+<p class="code">pygame.display.set_caption('Pygame Template')</p>
+
+and instead of 'Pygame Template' type the caption you want (like "Emily's Game!") to show on your display window. Run it and see if it works!
+<br><br>
+Now you'll want to add a little color to your display: the background and the objects you'll draw. You can re-type RGB values every time, or you can define some constants right after "import pygame."
+
+<p class="code">#define constants<br>
+BLACK = (0,0,0)<br>
+WHITE = (255,255,255)<br>
+RED = (255,0,0)<br>
+GREEN = (0,255,0)<br>
+BLUE = (0,0,255)</p>
+
+Next you should use one of those colors as your background color for your display. This goes right after the "for event" loop, in line with "for event."
+
+<p class="code">screen.fill(WHITE)</p>
+
+If you run this, you'll notice the background color doesn't change to white. Is Pygame broken? No, we need this line of code so the display will update after every loop:
+
+<p class="code">pygame.display.update()</p>
+
+Does it work now? Here's what the whole template should look like.
+
+<pre><code><p class="code">
+#pygame_template.py
+
+import pygame
+
+#define constants
+BLACK = (0,0,0)
+WHITE = (255,255,255)
+RED = (255,0,0)
+GREEN = (0,255,0)
+BLUE = (0,0,255)
+
+pygame.init()
+screen = pygame.display.set_mode((400,400))
+pygame.display.set_caption('Pygame Template')
+
+done = False
+
+while not done:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
+
+    #fill the screen with background color
+    screen.fill(WHITE)
+
+    #draw here:
+
+    #update the screen
+    pygame.display.update()
+    
+pygame.quit()
+</p></code></pre>
+
+<h2>Drawing in Pygame</h2>
+Now you can start drawing in Pygame. Change the name of the file, to save the state of the template file. <a href="http://simpson.edu/author/pcraven-2/" target="_blank">Professor Paul Craven</a> from Simpson College in Indiana wrote a terrific <a href="http://programarcadegames.com/index.php" target="_blank">web-based tutorial on Pygame</a>, and here are some links to his lessons on creating graphics.
+<br><br>
+<a href="http://programarcadegames.com/index.php?chapter=introduction_to_graphics" target="_blank">Introduction to Graphics</a>
+<br>
+<a href="http://programarcadegames.com/index.php?chapter=introduction_to_graphics#section_5_13" target="_blank">Drawing a Rectangle</a>
+
+<br><br>
+For example, to draw a 50x80 red rectangle at the point (100,200), add this code to the display loop:
+<p class="code">pygame.draw.rect(screen,RED,[100,200,50,80],0)
+</p>
+<br><br>
+<img src="./pygameintro.php_files/redrectangle2.png">
+<br><br>
+If you'd like the rectangle to have a red outline only, change the '0' at the end of the line to a number bigger than 0. This is the thickness of the outline. It can be any number, and 0 just means fill the polygon with the color.
+<p class="code">pygame.draw.rect(screen,RED,[100,200,50,80],2)
+</p>
+<br><br>
+<img src="./pygameintro.php_files/redrectangle1.png">
+<br><br>
+Now, using what you've learned, and referring to Professor Craven's site for reference, draw something out of shapes like lines, rectangles and ellipses like this house:
+<br><br>
+<img src="./pygameintro.php_files/house.png" width="200">
+<br><br>
+Or in preparation for the Space Invaders game you might be creating, take a shot at drawing an Invader:
+<br><br>
+<img src="./pygameintro.php_files/SpaceInvader.jpg">
+<br><br>
+Try your own drawings too!
+<br><br>
+
+Now let's take a look at <a href="https://server.thecoderschool.com/python/bouncingball.php">Bouncing Ball</a>
+<br><br>
+
+</div></div>
+<div class="no-print"><font style="font-size:8pt;font-family:verdana;color:#CCCCCC">
+Remember, this a BETA application, so you may find some issues.<br>
+Problems or Bugs?  <a href="mailto:techsupport@thecoderschool.com" style="color:#48d601">Let Us Know</a>.  Sorry, this page isn't mobile-optimized!</font>
+</div></div></center>
+
+</body></html>
