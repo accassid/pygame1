@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body><div style="display:block;font-size:10pt;font-family:Raleway;"><font color="red">Logged into buffalo with Andrew Cassidy as limited_staff_member </font><a href="https://server.thecoderschool.com/python/bouncingball.php?logout">logout</a></div>
+
+<link rel="shortcut icon" href="https://server.thecoderschool.com/favicon.ico" type="image/x-icon">
+<link rel="icon" href="https://server.thecoderschool.com/favicon.ico" type="image/x-icon">
+<meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+<meta name="title" content="theCoderSchool Internal Page">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./bouncingball.php_files/css">
+
+
+
+<style>
+body {
+    background-image: url("https://server.thecoderschool.com/bgcode.png");
+    background-color: #CCCCCC;
+}
+h1 {color:green;text-align:center;font-weight:bold; font-size:13pt}
+h2 {color:green;text-align:center;font-weight:bold; font-size:11pt}
+h3 {color:#333333;text-align:center;font-weight:bold; font-size:11pt}
+
+p.code {
+    font: 15px courier;
+    text-align:left;
+    padding-left:10px;
+    color:#007700;
+    background-color:#EEEEEE;
+}
+div.box {
+    background-color: lightgrey;
+    width: 600px;
+    padding: 25px;
+    border: 15px solid navy;
+    margin: 25px;
+}
+
+img,textarea,input {
+	max-width:95%;
+}
+
+#mainbigdiv{
+	border:solid black 1px;
+	margin:0px 15% 0px 15%;
+	padding:0px
+}
+
+#logoheaddiv{
+	background-color:#222222;
+	background:linear-gradient(to bottom,#000000,#444444);
+	text-align:center ;
+}
+
+/* LITTLE SCREENS*/ 
+@media screen and (max-width: 800px) {
+	#mainbigdiv{
+		margin:0;
+	}
+}
+
+/* Don't print this guy, if printing to printer */
+@media print
+{    
+    #logoheaddiv, #logoheaddiv *
+    {
+        display: none !important;
+    }
+}
+
+
+</style>
+
+<center>
+<!-- largest div, wraps all but footer -->
+<div id="mainbigdiv">
+
+<!-- header with logo -->
+<div id="logoheaddiv">
+<img src="./bouncingball.php_files/logohoriztag-white.png" style="width:300px;padding:20px">
+</div>
+
+
+<!-- Main white box holding content -->
+<div style="background-color:white;font-family:Raleway;font-size:11pt"><img src="./bouncingball.php_files/pygame.gif" height="100">
+
+<div style="padding:10px;text-align:left">
+
+<h1>The Bouncing Ball</h1>
+So now we have a template for creating a Pygame program. Let's open the template and save it as "bouncingball.py."
+<h2>The Ball</h2>
+Your first mission is to create an ellipse that will act as a ball, moving around the screen and bouncing off the "walls." With the skills you've learned and with the help of <a href="http://programarcadegames.com/index.php?chapter=introduction_to_graphics#section_5_14" target="_blank">Professor Craven's Pygame tutorial</a> you should be able to create a scene that looks like this:
+<br><br>
+<img src="./bouncingball.php_files/ball.png" width="400">
+<br><br>
+How do you make something move in a graphics program? I'll tell you a secret: there's no such thing as movement in graphics. You simply create a new object in a different location and fool the viewer's mind into thinking it "moved." With the "display.update()" or "flip()" line we paint the background black, then draw an ellipse. Pygame is already doing that 60 times a second but since every new ball is in the same location, we don't notice. How do we change an ellipse's location? By replacing the numbers with variables:
+
+
+<br><br>
+<img src="./bouncingball.php_files/ballcoord.png">
+<br><br>
+If you run it now it'll tell you "x is not defined." You have to declare x and y up at the top of the file. I put it after the colors:
+<br><br>
+<img src="./bouncingball.php_files/declarexy.png">
+<br><br>
+Now when you run the program you should see the ball quickly go off the screen. It's changing its position very quickly.
+
+<div class="box">If you comment out the line of code that paints the background black every loop you'll see that Pygame is really just creating a bunch of new ellipses:
+
+<p class="code">#screen.fill(BLACK)</p>
+
+The output should look like this now:
+<br><br>
+<img src="./bouncingball.php_files/balltrail.png" width="400"></div>
+
+<h2>Adding Some Bounce</h2>
+Now what if we want our ball to bounce off the edges of the screen? It's as easy as telling it, "If you get to this x-value or this y-value, change your direction." But what is changing direction in our program? Our ball's y-value is going up and if it hits the bottom we want tye y-value to go down.
+<h3>Velocity</h3>
+Velocity is the change in an object's position. In our program, the 2 and the 3 are changing the ball's position every loop. Those are the horizontal and vertical components of the ball's velocity. The velocity needs to change, so we have to replace it with a variable. We'll change those components to variables the same way we did for the ball's position.
+
+<br><br>
+<img src="./bouncingball.php_files/xvel.png">
+
+<br><br>
+And we'll add the velocity where we declared x and y:
+<br><br>
+<img src="./bouncingball.php_files/declarexyvel.png">
+<br><br>
+Run it and make sure it still works. The ball flies off the screen pretty quickly! You can slow down the speed at which Pygame refreshes the screen by adding a clock right after setting the caption:
+<p class="code">clock = pygame.time.Clock()</p>
+
+And at the end of the while loop, right after updating the display, add this:
+<pre><p class="code">clock.tick(60)</p></pre>
+Run it and see that things are slowed down now. Here's how we're going to make the ball "bounce." The walls are at x = 0, y = 0, x = 600, y = 600. With this block of code, which should go right before drawing the ellipse, we check if the location of the ball is at the wall (or beyond). If it is, change the velocity to its opposite.
+
+<pre><code><p class="code">
+#check if ball needs to bounce:
+if x &gt;= 600 or x &lt;= 0: #if ball is at left or right wall
+	xvel = -xvel        #change direction
+if y &gt;= 600 or y &lt;= 0: #if ball is at top or bottom:
+	yvel = -yvel        #change direction
+</p></code></pre>
+
+Run this program and watch the ball bounce around the screen! Change the velocity, the clock speed, colors and experiment!
+<br><br>
+
+If you're stuck, here's the <a href="https://server.thecoderschool.com/python/bouncingball.py" target="_blank">full source</a>.
+<br><br>
+
+Now let's check out <a href="https://server.thecoderschool.com/python/bouncingball2.php">Bouncing Ball Part 2</a>
+<br><br>
+</div></div>
+<div class="no-print"><font style="font-size:8pt;font-family:verdana;color:#CCCCCC">
+Remember, this a BETA application, so you may find some issues.<br>
+Problems or Bugs?  <a href="mailto:techsupport@thecoderschool.com" style="color:#48d601">Let Us Know</a>.  Sorry, this page isn't mobile-optimized!</font>
+</div></div></center>
+
+</body></html>
