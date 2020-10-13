@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body><div style="display:block;font-size:10pt;font-family:Raleway;"><font color="red">Logged into buffalo with Andrew Cassidy as limited_staff_member </font><a href="https://server.thecoderschool.com/python/bouncingball2.php?logout">logout</a></div>
+
+<link rel="shortcut icon" href="https://server.thecoderschool.com/favicon.ico" type="image/x-icon">
+<link rel="icon" href="https://server.thecoderschool.com/favicon.ico" type="image/x-icon">
+<meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+<meta name="title" content="theCoderSchool Internal Page">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./bouncingball2.php_files/css">
+
+
+
+<style>
+body {
+    background-image: url("https://server.thecoderschool.com/bgcode.png");
+    background-color: #CCCCCC;
+}
+h1 {color:green;text-align:center;font-weight:bold; font-size:13pt}
+h2 {color:green;text-align:center;font-weight:bold; font-size:11pt}
+h3 {color:#333333;text-align:center;font-weight:bold; font-size:11pt}
+
+p.code {
+    font: 15px courier;
+    text-align:left;
+    padding-left:10px;
+    color:#007700;
+    background-color:#EEEEEE;
+}
+div.box {
+    background-color: lightgrey;
+    width: 600px;
+    padding: 25px;
+    border: 15px solid navy;
+    margin: 25px;
+}
+
+img,textarea,input {
+	max-width:95%;
+}
+
+#mainbigdiv{
+	border:solid black 1px;
+	margin:0px 15% 0px 15%;
+	padding:0px
+}
+
+#logoheaddiv{
+	background-color:#222222;
+	background:linear-gradient(to bottom,#000000,#444444);
+	text-align:center ;
+}
+
+/* LITTLE SCREENS*/ 
+@media screen and (max-width: 800px) {
+	#mainbigdiv{
+		margin:0;
+	}
+}
+
+/* Don't print this guy, if printing to printer */
+@media print
+{    
+    #logoheaddiv, #logoheaddiv *
+    {
+        display: none !important;
+    }
+}
+
+
+</style>
+
+<center>
+<!-- largest div, wraps all but footer -->
+<div id="mainbigdiv">
+
+<!-- header with logo -->
+<div id="logoheaddiv">
+<img src="./bouncingball2.php_files/logohoriztag-white.png" style="width:300px;padding:20px">
+</div>
+
+
+<!-- Main white box holding content -->
+<div style="background-color:white;font-family:Raleway;font-size:11pt"><img src="./bouncingball2.php_files/pygame.gif" height="100">
+<div style="padding:10px;text-align:left">
+
+<h1>The Bouncing Ball Continued</h1>
+So far we have a working Pygame program with a ball bouncing off the walls. Let's save it as "bouncingball2.py."
+<h2>Ball Two</h2>
+Your mission is to create another ball. It can be the same shape and size as the first ball, or it can be different. It's up to you.
+<br><br>
+You have to create a new starting x and y for ball2 and a new xvel and yvel for ball2. You pretty much have to duplicate all your code for ball #1 and rename it for ball2.
+<br><br>
+Take your time!
+<h3>Twice the Work</h3>
+To have twice as many balls took twice as much work, right? Can you imagine creating a third ball? A fourth? Ten? How about a hundred balls, all different sizes and colors, going in different directions at different speeds? Out of the question, right? Well, then how on earth did I do this?
+<br><br>
+<img src="./bouncingball2.php_files/hundredballs.png" width="400">
+<h2>Classes</h2>
+There's a very helpful programming tool that lets you make any number of related objects that act in similar ways. You can vary their properties, but they all have the same characteristics. This is called "Object Oriented Programming" and the tool is called a "Class." The good news is you've already created the code you'll need to make a ball, so you just have to save that in a "ball" class.
+<br><br>
+Add this code right after the imports:
+<p class="code">class Ball:</p>
+The first thing we need to do is <b>initialize</b> the ball, which means you tell the program all the properties of a ball. The next line is the very important "init" method. There are <b>two underscores</b> before and after the "init."
+<pre><p class="code">    def __init__(self):</p></pre>
+"Self" is the hallmark of the Python class notation: it means every instance of the object (in this case, a ball) will have its own properties. You'll see it a lot.
+<br><br>
+Next we start assigning all the things we need to make a ball. We've already done these: an x-coordinate, a y-coordinate, an x-velocity, a y-velocity, a color and a radius. We just want these to be random, so we need to import some functions from the random module. In the imports, add this line:
+<p class="code">from random import randint</p>
+"Randint" generates a random integer between two numbers. We'll make every ball white, with radius 10, and use randint to give each ball a bunch of random properties:
+
+<pre><code><p class="code">class Ball:
+    def __init__(self):
+        self.radius = 10
+        self.color = WHITE
+        self.xcor = randint(0,600)
+        self.ycor = randint(0,600)
+        self.xvel = randint(-5,5)
+        self.yvel = randint(-5,5)</p></code></pre>
+        
+The order you create the properties isn't important. Now we need another <b>method </b>(that's what a function is called inside a class) to tell the ball how to move. Cut and paste the code for bouncing, updating and drawing from below and add some "self"'s:
+
+<pre><code><p class="code">    def move(self):
+        if self.xcor &lt; 0 or self.xcor &gt; 700 - self.radius:
+            self.xvel = -self.xvel
+        if self.ycor &lt; 0 or self.ycor &gt; 500 - self.radius:
+            self.yvel = -self.yvel
+        self.xcor += self.xvel
+        self.ycor += self.yvel
+        pygame.draw.ellipse(screen, self.color,
+                            [self.xcor,self.ycor,2*self.radius,2*self.radius])</p></code></pre>
+
+And that's the Ball class! Now all you need to do is create a "Ball" instance (or two, or 100) and command them to move inside the loop. After creating the clock (before starting the while loop), create an instance of the Ball class and call it ball:
+<p class="code">ball = Ball()</p>
+If you run this, you'll get a blank screen. You've created the ball but you haven't told it to move. In the while loop, after filling the screen with the background color, tell the ball to move:
+<pre><p class="code">    ball.move()</p></pre>
+When you run this, you'll see a moving ball! Of course I promised more than one, so we need to use loops for initializing and updating our objects. And we'll use a ball list to store our ball objects. After declaring the colors, create an empty ball list:
+<p class="code">ball_list = []</p>
+Change the "ball = Ball()" line to this:
+<pre><code><p class="code">#create the balls
+for i in range(10): 
+        ball = Ball() #create a new ball
+        ball_list.append(ball) #add it to the ball list</p></code></pre>
+        
+Finally, inside the while loop, use this loop to go through all the balls in the ball list and move them one by one:
+<pre><code><p class="code">    #move the balls
+    for ball in ball_list:
+        ball.move()</p></code></pre>
+        
+Run the program and you'll see 10 balls bouncing around! If there aren't 10, some may have been created on the edge and they're not moving. Anyway, change the number in the "for i in range" loop to 100 and watch 100 of them!
+<br><br>
+<img src="./bouncingball2.php_files/whiteballs.png">
+<br><br>
+
+
+<h2>A More Useful Ball</h2>
+Now you've seen just how useful a Ball class is! Even more useful is being able to reuse the Ball "recipe" for other projects. But not all of them are going to call for balls of the same size and color. We can create parameters in the "init" method so in the future we can get a red ball of radius 50 at the point (300,150) with x-velocity 2 and y-velocity -3 with this code:
+<p class="code">ball = Ball(RED,50,300,150,2,-3)</p>
+Of course we can randomize the numbers if we want to, and add any number of other properties, too. We're in charge!
+
+
+<h3>The New "init"</h3>
+Now we'll change the "init" method to require we tell Python all the properties of the ball when we initialize it:
+<pre><code><p class="code">class Ball:
+    def __init__(self,radius,color,xcor,ycor,xvel,yvel):
+        self.radius = radius
+        self.color = color
+        self.xcor = xcor
+        self.ycor = ycor
+        self.xvel = xvel
+        self.yvel = yvel</p></code></pre>
+        
+This may look repetitive or obvious, but it just means, "The first number in the parentheses will be the radius, so make that the ball's radius." We could just as easily have written:
+<pre><code><p class="code">class Ball:
+    def __init__(self,a,b,c,d,e,f):
+        self.radius = a
+        self.color = b
+        self.xcor = c
+        self.ycor = d
+        self.xvel = e
+        self.yvel = f</p></code></pre>
+        
+So why do we do it the long way? The answer is just like when Python prompts us when we call a function:
+<br><br>
+<img src="./bouncingball2.php_files/squareprompt.png">
+<br><br>
+
+
+When we create a ball Python will prompt us to enter all the properties of a Ball in the right order:
+<br><br>
+<img src="./bouncingball2.php_files/ballprompt.png">
+<br><br>
+See how that's the same list of properties as in the "init" line? Very useful!
+
+
+<br><br>
+
+Now we need to provide all the ball's properties when we create it. We'll use the random module to generate random numbers for everything, even the color!
+
+<pre><code><p class="code">
+#create the balls
+for i in range(100):
+    newball = Ball(randint(10,60), #radius
+                   (randint(0,255),#red
+                    randint(0,255),#green
+                    randint(0,255)),#blue
+                   randint(0,650), #x-value
+                   randint(0,450), #y-value
+                   randint(-5,5),   #x-velocity
+                   randint(-5,5))   #y-velocity
+    ball_list.append(newball) #add it to the ball list
+</p></code></pre>
+    
+<p>Making the balls move is the same as previously. Run this and you'll get a screen full of balls of random size and color!
+<br><br>
+<img src="./bouncingball2.php_files/hundredballs2.png" height="400"><br><br>
+
+Stuck? Check out the full <a href="https://server.thecoderschool.com/python/bouncingball_class.py" target="_blank">source code</a>.
+
+Now let's see if we can create the all-time classic game <a href="https://server.thecoderschool.com/python/pong.php">Pong</a>
+<br><br>
+</p></div></div>
+<div class="no-print"><font style="font-size:8pt;font-family:verdana;color:#CCCCCC">
+Remember, this a BETA application, so you may find some issues.<br>
+Problems or Bugs?  <a href="mailto:techsupport@thecoderschool.com" style="color:#48d601">Let Us Know</a>.  Sorry, this page isn't mobile-optimized!</font>
+</div></div></center>
+
+</body></html>
