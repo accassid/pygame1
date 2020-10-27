@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body><div style="display:block;font-size:10pt;font-family:Raleway;"><font color="red">Logged into buffalo with Andrew Cassidy as limited_staff_member </font><a href="https://server.thecoderschool.com/python/pong.php?logout">logout</a></div>
+
+<link rel="shortcut icon" href="https://server.thecoderschool.com/favicon.ico" type="image/x-icon">
+<link rel="icon" href="https://server.thecoderschool.com/favicon.ico" type="image/x-icon">
+<meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+<meta name="title" content="theCoderSchool Internal Page">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./pong.php_files/css">
+
+
+
+<style>
+body {
+    background-image: url("https://server.thecoderschool.com/bgcode.png");
+    background-color: #CCCCCC;
+}
+h1 {color:green;text-align:center;font-weight:bold; font-size:13pt}
+h2 {color:green;text-align:center;font-weight:bold; font-size:11pt}
+h3 {color:#333333;text-align:center;font-weight:bold; font-size:11pt}
+
+p.code {
+    font: 15px courier;
+    text-align:left;
+    padding-left:10px;
+    color:#007700;
+    background-color:#EEEEEE;
+}
+div.box {
+    background-color: lightgrey;
+    width: 600px;
+    padding: 25px;
+    border: 15px solid navy;
+    margin: 25px;
+}
+
+img,textarea,input {
+	max-width:95%;
+}
+
+#mainbigdiv{
+	border:solid black 1px;
+	margin:0px 15% 0px 15%;
+	padding:0px
+}
+
+#logoheaddiv{
+	background-color:#222222;
+	background:linear-gradient(to bottom,#000000,#444444);
+	text-align:center ;
+}
+
+/* LITTLE SCREENS*/ 
+@media screen and (max-width: 800px) {
+	#mainbigdiv{
+		margin:0;
+	}
+}
+
+/* Don't print this guy, if printing to printer */
+@media print
+{    
+    #logoheaddiv, #logoheaddiv *
+    {
+        display: none !important;
+    }
+}
+
+
+</style>
+
+<center>
+<!-- largest div, wraps all but footer -->
+<div id="mainbigdiv">
+
+<!-- header with logo -->
+<div id="logoheaddiv">
+<img src="./pong.php_files/logohoriztag-white.png" style="width:300px;padding:20px">
+</div>
+
+
+<!-- Main white box holding content -->
+<div style="background-color:white;font-family:Raleway;font-size:11pt"><br><br>
+<img src="./pong.php_files/pong.jpg" width="500">
+<div style="padding:10px;text-align:left">
+
+
+<h1>Pong</h1>
+So far we have a working Pygame program with a Ball class. We're going to make a clone of the famous video game Pong. Let's save it as "pong.py."
+<h2>Square Ball</h2>
+If you notice in the screenshot above, the ball in Pong is traditionally square. <b>This is your first mission. Change your code so there's only one ball, still bouncing around, but it's a square.</b>
+
+
+<h2>The Net</h2>
+From the screenshot at the top of the page, you can see the "net" going down the middle of the screen is made of squares identical to the ball. <b>Draw a line of squares down the middle of the screen.</b> A loop would make this very easy!
+  
+    
+<h2>Paddle Time</h2>
+Now we need to create the paddles. Since there will be more than one, and since we'll be reusing the code for future games, let's make a Paddle class. 
+ 
+<br><br>
+
+The paddle will be a rectangle, much higher than it is wide. It's x-coordinate will never change, but its y-coordinate is a variable. You'll need an "init" method and a "draw" method.
+<br><br>
+
+Here's a hint on the Paddle class code:
+<pre><p class="code">class Paddle:
+    def __init__(self,xcor,ycor,height,width,color):
+        ...
+        </p></pre>
+
+You need to create the paddles by providing all the properties the "init" method needs. Can you do it?
+<br><br>
+This is the code for creating the left paddle. Put it right after creating the ball. You'll have to do the right paddle yourself.
+
+<pre><p class="code">#create the paddles:
+leftpaddle = Paddle(50,#xcor
+                    randint(50,450),#ycor
+                    50,#height
+                    10,#width
+                    WHITE) #color
+</p></pre>
+
+Finally, inside the display loop, you need to move the paddles (we'll add more code for that soon).
+<pre><p class="code">    #move the paddles
+    leftpaddle.draw()
+    rightpaddle.draw()
+</p></pre>
+<br><br>
+Here's what the screen should look like so far:
+<br><br>
+<img src="./pong.php_files/pong2.png" width="500">
+<h2>Moving with Keys!</h2>
+Finally, you're going to learn to move an object with keys! Remember how Pygame stores every "event" and we make it listen for the user clicking the X to close the display? We can listen for specific keystrokes, too. Add this to the imports:
+<pre><p class="code">from pygame.locals import *</p></pre> 
+The code to listen for the up arrow, and if it's pressed, make the right paddle move "up" the screen is this:
+<br><br>
+<img src="./pong.php_files/uparrow.png" width="700">
+<br><br> 
+But if you run the program and press the up arrow, the paddle moves only once! You have to keep pressing the key to get it to move. Not fun! So we'll add a property to the paddle class called "move." We'll also change the "draw" method so it'll automatically add the "move" when there is one.
+<br><br>
+<img src="./pong.php_files/paddlemove.png" width="700">
+<br><br> 
+Now we can add all the keydowns and keyups to the code:
+<br><br>
+<img src="./pong.php_files/keyscode.png" width="800">
+<br><br>
+Now our paddles should move smoothly without having to keep clicking. Test it out!
+
+<h2>Collisions</h2>
+Collision detection is a very complicated programming exercise. We could add a ton of conditionals ("If the ball's left edge is at the same x-value as the paddle's right edge and the ball's yvalue is between....") or we could say a little silent "thank you" to whoever created Pygame's "Rect" function. If two objects are "Rects" they can automatically check for collisions! It's not quite the same as the "rect" we've been drawing. There are 3 steps we need to perform:
+<h3>1. Add a Rect to the Ball class</h3>
+The "Rect" object needs to be declared and given a position and a size. Here's the code to put in the Ball class:
+<br><br>
+<img src="./pong.php_files/ballrect.png" width="800">
+<br><br>
+Here's the great part. As the ball moves, it can just check if it's colliding with another "Rect" and change direction if it does. It'll only change its x-direction for now. In the ball's "move" method, add the code indicated below:
+<br><br>
+<img src="./pong.php_files/ballmoverect.png" width="800">
+
+<h3>2. Add a Rect to the Paddle class</h3>
+And here's the code to change in the Paddle class:
+<br><br>
+<img src="./pong.php_files/paddlerect.png" width="800">
+
+<h3>3. Have the ball check if it's colliding with either paddle</h3>
+Lastly, in the display loop, the ball needs to check if it's colliding with a paddle. It'll loop over the (very short) list like this:
+<br><br>
+<img src="./pong.php_files/ballcheck.png" width="500">
+<br><br>
+Run this and the ball should now bounce off the walls and the paddles!
+
+<h2>Keeping Score</h2>
+We don't want the ball to bounce off the left and right anymore. If it gets to the left edge (x=0) we want it to change its x-value to the middle of the screen. Same if it gets to the right edge. Can you make the adjustments to the code? Try it before continuing.
+<br><br>
+Add this code right after the Paddle class:
+
+<pre><p class="code">class Score:
+    def __init__(self,xpos,ypos):
+        self.xpos = xpos
+        self.ypos = ypos
+        self.score = 0
+
+    def increaseScore(self,value):
+        self.score += value
+
+    def displayScore(self):
+        # This is a font we use to draw text on the screen (size 72)
+        font = pygame.font.SysFont("911 Porscha", 72)
+        text = font.render(str(self.score), True, WHITE)
+        screen.blit(text, [self.xpos, self.ypos])
+        
+    def resetScore(self):
+        self.score = 0</p></pre>
+
+
+We just <b>defined</b> the class, now the next two steps are <b>creating</b> the instance of the class, and <b>displaying</b> it.
+<br><br>
+Add this after creating the paddles. It declares the x- and y-coordinates of each score:
+<pre><p class="code">leftscore = Score(250,25)
+rightscore = Score(400,25)
+</p></pre>
+Finally, display the score in the display loop, after moving the paddles:
+<pre><p class="code">    #display the scores
+    leftscore.displayScore()
+    rightscore.displayScore()
+</p></pre>
+Run it and this is what your program should look like:
+<br><br>
+<img src="./pong.php_files/pongscore.png">
+<h2>Extension: Ending Game and Replay</h2>
+
+<img src="./pong.php_files/gameover.png">
+<br><br>
+You can let your players keep playing until they get tired and click the X to close, or you can set a maximum score. When one of the players gets to 5, for example, the program will stop the game and ask if the user wants a replay. Put this code in the display loop right before updating the screen:
+<pre><p class="code">    #if one player scores 5 (or whatever max you choose)
+    if leftscore.score == 5 or rightscore.score == 5:
+        #start "waiting" for a response
+        waiting = True
+        while waiting:
+            #display the Game Over text
+            font = pygame.font.Font(None, 36)
+            text = font.render("GAME OVER. PLAY AGAIN? Y/N ", True, WHITE)
+            screen.blit(text, [200, 250])
+            for event in pygame.event.get(): #check keystrokes
+                if event.type == pygame.KEYDOWN: #if a key is pressed
+                    if event.key == K_y: #if player presses Y for "yes"
+                        leftscore.resetScore() #reset the scores
+                        rightscore.resetScore()
+                        waiting = False
+                        break
+                    if event.key == K_n: #if player presses N for "no"
+                        waiting = False
+                        done = True #game is done
+                        break
+            pygame.display.update() #keep refreshing screen while waiting
+
+</p></pre>
+Now run the program and see if everything is functional. Enjoy!
+
+<br>
+(Stuck?  Check out the <a href="https://server.thecoderschool.com/python/pong.py" target="_blank">full source</a>)
+
+<br><br>
+Now let's step up the difficulty with another classic game, <a href="https://server.thecoderschool.com/python/breakout.php">Breakout</a>
+<br><br>
+</div></div>
+<div class="no-print"><font style="font-size:8pt;font-family:verdana;color:#CCCCCC">
+Remember, this a BETA application, so you may find some issues.<br>
+Problems or Bugs?  <a href="mailto:techsupport@thecoderschool.com" style="color:#48d601">Let Us Know</a>.  Sorry, this page isn't mobile-optimized!</font>
+</div></div></center>
+
+</body></html>
